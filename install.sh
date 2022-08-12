@@ -10,5 +10,5 @@ mkdir -p $VENOM_NVIM/nvim
 
 stow --restow --target=$VENOM_NVIM/nvim .
 
-alias nvmm='XDG_DATA_HOME=$VENOM_NVIM/share XDG_CACHE_HOME=$VENOM_NVIM XDG_CONFIG_HOME=$VENOM_NVIM nvim'
+alias venom='XDG_DATA_HOME=$VENOM_NVIM/share XDG_CACHE_HOME=$VENOM_NVIM XDG_CONFIG_HOME=$VENOM_NVIM nvim'
 
