@@ -35,7 +35,24 @@ local conf = {
 return packer.startup({function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
-  
+  use 'kyazdani42/nvim-web-devicons'
+	use 'nvim-lua/plenary.nvim'
+	use {
+		'TimUntersberger/neogit',
+		cmd = { "Neogit" },
+		config = function()
+			require("neogit").setup({})
+		end,
+	}
+
+  -- Color Scheme
+  use {
+    'Yazeed1s/minimal.nvim',
+    config = [[vim.cmd('colorscheme minimal-base16')]],
+    -- config = [[vim.cmd('colorscheme minimal')]],
+  }
+
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
