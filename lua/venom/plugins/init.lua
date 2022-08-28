@@ -51,6 +51,52 @@ return packer.startup({function(use)
     config = [[vim.cmd('colorscheme minimal-base16')]],
     -- config = [[vim.cmd('colorscheme minimal')]],
   }
+  
+  -- Starter
+  use {
+    'goolord/alpha-nvim',
+    config = function ()
+        require'alpha'.setup(require'alpha.themes.theta'.config)
+    end
+  }
+  
+  -- Statusline
+  use {
+    'feline-nvim/feline.nvim',
+    config = function ()
+      -- require('feline').winbar.setup()
+      require('feline').setup()
+    end
+  }
+
+  -- Tabline
+  use {
+    'akinsho/bufferline.nvim', 
+    tag = "v2.*", 
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function () 
+      require("bufferline").setup{}
+    end
+  }
+
+  -- Comment
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  }
+
+  -- Surround
+  use {
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  }
 
 
   -- Automatically set up your configuration after cloning packer.nvim
