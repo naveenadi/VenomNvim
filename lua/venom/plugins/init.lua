@@ -56,7 +56,8 @@ return packer.startup({function(use)
   use {
     'goolord/alpha-nvim',
     config = function ()
-        require'alpha'.setup(require'alpha.themes.theta'.config)
+      require'alpha'.setup(require'alpha.themes.theta'.config)
+      -- require("venom.plugins.config.alpha_nvim")
     end
   }
   
