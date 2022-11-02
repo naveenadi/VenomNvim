@@ -1,16 +1,17 @@
 local fn = vim.fn
 local api = vim.api
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+    install_path })
   vim.cmd [[packadd packer.nvim]]
 end
 
 -- Run PackerCompile if there are changes in this file
 local packerGrp = api.nvim_create_augroup("packer_user_config", { clear = true })
 api.nvim_create_autocmd(
-	{ "BufWritePost" },
-	{ pattern = "init.lua", command = "source <afile> | PackerCompile", group = packerGrp }
+  { "BufWritePost" },
+  { pattern = "init.lua", command = "source <afile> | PackerCompile", group = packerGrp }
 )
 
 
@@ -20,30 +21,30 @@ if not ok then return end
 
 -- packer.nvim configuration
 local conf = {
-	profile = {
-		enable = true,
-		threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
-	},
+  profile = {
+    enable = true,
+    threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
+  },
 
-	display = {
-		open_fn = function()
-			return require("packer.util").float({ border = "rounded" })
-		end,
-	},
+  display = {
+    open_fn = function()
+      return require("packer.util").float({ border = "rounded" })
+    end,
+  },
 }
 
-return packer.startup({function(use)
+return packer.startup({ function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
   use 'kyazdani42/nvim-web-devicons'
-	use 'nvim-lua/plenary.nvim'
-	use {
-		'TimUntersberger/neogit',
-		cmd = { "Neogit" },
-		config = function()
-			require("neogit").setup({})
-		end,
-	}
+  use 'nvim-lua/plenary.nvim'
+  use {
+    'TimUntersberger/neogit',
+    cmd = { "Neogit" },
+    config = function()
+      require("neogit").setup({})
+    end,
+  }
 
   -- Color Scheme
   use {
@@ -51,20 +52,20 @@ return packer.startup({function(use)
     config = [[vim.cmd('colorscheme minimal-base16')]],
     -- config = [[vim.cmd('colorscheme minimal')]],
   }
-  
+
   -- Starter
   use {
     'goolord/alpha-nvim',
-    config = function ()
-      require'alpha'.setup(require'alpha.themes.theta'.config)
+    config = function()
+      require 'alpha'.setup(require 'alpha.themes.theta'.config)
       -- require("venom.plugins.config.alpha_nvim")
     end
   }
-  
+
   -- Statusline
   use {
     'feline-nvim/feline.nvim',
-    config = function ()
+    config = function()
       -- require('feline').winbar.setup()
       require('feline').setup()
     end
@@ -72,11 +73,11 @@ return packer.startup({function(use)
 
   -- Tabline
   use {
-    'akinsho/bufferline.nvim', 
-    tag = "v2.*", 
+    'akinsho/bufferline.nvim',
+    tag = "v2.*",
     requires = 'kyazdani42/nvim-web-devicons',
-    config = function () 
-      require("bufferline").setup{}
+    config = function()
+      require("bufferline").setup {}
     end
   }
 
@@ -99,6 +100,23 @@ return packer.startup({function(use)
     end
   }
 
+  -- LSP Setup
+  use {
+    "neovim/nvim-lspconfig",
+    event = "BufReadPre",
+    requires = {
+      { -- Companion plugin for nvim-lspconfig that allows you to seamlessly install LSP servers locally (inside :echo stdpath("data")).
+        'williamboman/mason.nvim',
+        requires = {
+          'williamboman/mason-lspconfig.nvim'
+        }, -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
+      },
+    },
+    config = function()
+      require("venom.plugins.config.nvim_lspconfig")
+    end,
+  }
+
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -108,5 +126,5 @@ return packer.startup({function(use)
   end
 end,
 
-config = conf
+  config = conf
 })
