@@ -76,7 +76,7 @@ return packer.startup({ function(use)
   -- LSP Setup
   use {
     "neovim/nvim-lspconfig",
-    event = "BufRead",
+    event = "BufReadPre",
     requires = {
       { -- Companion plugin for nvim-lspconfig that allows you to seamlessly install LSP servers locally (inside :echo stdpath("data")).
         'williamboman/mason.nvim',
@@ -108,10 +108,10 @@ return packer.startup({ function(use)
     },
     config = function()
       require("venom.plugins.config.nvim_cmp")
-      -- require('luasnip')
+      require('venom.plugins.config.luasnip')
     end
   }
-  
+
   -- Statusline
   use {
     'feline-nvim/feline.nvim',
