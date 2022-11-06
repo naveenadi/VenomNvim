@@ -61,16 +61,7 @@ return packer.startup({ function(use)
       -- require("venom.plugins.config.alpha_nvim")
     end
   }
-
-  -- Statusline
-  use {
-    'feline-nvim/feline.nvim',
-    config = function()
-      -- require('feline').winbar.setup()
-      require('feline').setup()
-    end
-  }
-
+  
   -- Tabline
   use {
     'akinsho/bufferline.nvim',
@@ -81,29 +72,7 @@ return packer.startup({ function(use)
       require("bufferline").setup {}
     end
   }
-
-  -- Comment
-  use {
-    'numToStr/Comment.nvim',
-    keys = { "cc", "gc", "gb" },
-    config = function()
-      require('Comment').setup()
-    end
-  }
-
-  -- Surround
-  use {
-    "kylechui/nvim-surround",
-    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = 'InsertEnter',
-    keys = { 'c' },
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
-  }
-
+ 
   -- LSP Setup
   use {
     "neovim/nvim-lspconfig",
@@ -120,25 +89,7 @@ return packer.startup({ function(use)
       require("venom.plugins.config.nvim_lspconfig")
     end,
   }
-
-  -- Cursorword
-  use {
-    'RRethy/vim-illuminate',
-    config = function()
-      require('illuminate').configure()
-    end
-  }
-
-  -- Jump2d
-  use {
-    'phaazon/hop.nvim',
-    branch = 'v2', -- optional but strongly recommended
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-    end
-  }
-
+   
   -- Completion
   use {
     "hrsh7th/nvim-cmp",
@@ -160,7 +111,70 @@ return packer.startup({ function(use)
       -- require('luasnip')
     end
   }
+  
+  -- Statusline
+  use {
+    'feline-nvim/feline.nvim',
+    config = function()
+      -- require('feline').winbar.setup()
+      require('feline').setup()
+    end
+  }
 
+  -- Jump2d
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    end
+  }
+
+  -- Cursorword
+  use {
+    'RRethy/vim-illuminate',
+    config = function()
+      require('illuminate').configure()
+    end
+  }
+
+  -- Indentscope
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+     config = function()
+      require("venom.plugins.config.indent_blankline")
+    end 
+  }
+
+  -- Surround
+  use {
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = 'InsertEnter',
+    keys = { 'c' },
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  }
+
+  -- Comment
+  use {
+    'numToStr/Comment.nvim',
+    keys = { "cc", "gc", "gb" },
+    config = function()
+      require('Comment').setup()
+    end
+  }
+
+  -- Pairs
+  use {
+	  "windwp/nvim-autopairs",
+    after = "nvim-cmp",
+    config = function() require("venom.plugins.config.nvim_autopairs") end
+  }
 
 
   -- Automatically set up your configuration after cloning packer.nvim
