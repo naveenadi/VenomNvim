@@ -49,8 +49,8 @@ return packer.startup({ function(use)
   -- Color Scheme
   use {
     'Yazeed1s/minimal.nvim',
-    config = [[vim.cmd('colorscheme minimal-base16')]],
-    -- config = [[vim.cmd('colorscheme minimal')]],
+    -- config = [[vim.cmd('colorscheme minimal-base16')]],
+    config = [[vim.cmd('colorscheme minimal')]],
   }
 
   -- Starter
@@ -74,8 +74,9 @@ return packer.startup({ function(use)
   -- Tabline
   use {
     'akinsho/bufferline.nvim',
-    tag = "v2.*",
+    tag = "v3.*",
     requires = 'kyazdani42/nvim-web-devicons',
+    event = "BufWinEnter",
     config = function()
       require("bufferline").setup {}
     end
@@ -84,6 +85,7 @@ return packer.startup({ function(use)
   -- Comment
   use {
     'numToStr/Comment.nvim',
+    keys = { "cc", "gc", "gb" },
     config = function()
       require('Comment').setup()
     end
@@ -93,6 +95,8 @@ return packer.startup({ function(use)
   use {
     "kylechui/nvim-surround",
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = 'InsertEnter',
+    keys = { 'c' },
     config = function()
       require("nvim-surround").setup({
         -- Configuration here, or leave empty to use defaults
@@ -103,7 +107,7 @@ return packer.startup({ function(use)
   -- LSP Setup
   use {
     "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    event = "BufRead",
     requires = {
       { -- Companion plugin for nvim-lspconfig that allows you to seamlessly install LSP servers locally (inside :echo stdpath("data")).
         'williamboman/mason.nvim',
@@ -116,6 +120,47 @@ return packer.startup({ function(use)
       require("venom.plugins.config.nvim_lspconfig")
     end,
   }
+
+  -- Cursorword
+  use {
+    'RRethy/vim-illuminate',
+    config = function()
+      require('illuminate').configure()
+    end
+  }
+
+  -- Jump2d
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    end
+  }
+
+  -- Completion
+  use {
+    "hrsh7th/nvim-cmp",
+    event = 'InsertEnter',
+    requires = {
+      { -- Snippet Engine for Neovim written in Lua.
+        'L3MON4D3/LuaSnip',
+        module = "luasnip",
+      },
+      { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' }, -- nvim-cmp source for neovim builtin LSP client
+      { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' }, -- nvim-cmp source for nvim lua
+      { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }, -- nvim-cmp source for buffer words.
+      { 'hrsh7th/cmp-path', after = 'nvim-cmp' }, -- nvim-cmp source for filesystem paths.
+      { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }, -- luasnip completion source for nvim-cmp
+      { "hrsh7th/cmp-nvim-lsp-signature-help", after = 'nvim-cmp' },
+    },
+    config = function()
+      require("venom.plugins.config.nvim_cmp")
+      -- require('luasnip')
+    end
+  }
+
 
 
   -- Automatically set up your configuration after cloning packer.nvim
