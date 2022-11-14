@@ -82,8 +82,6 @@ for k, v in pairs(options) do
   opt[k] = v
 end
 
-g.mapleader = " "
-
 -- disable some builtin vim plugins
 local default_plugins = {
   "2html_plugin",
