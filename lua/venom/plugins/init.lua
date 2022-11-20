@@ -1,11 +1,19 @@
 local fn = vim.fn
 local api = vim.api
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
-    install_path })
-  vim.cmd [[packadd packer.nvim]]
+
+-- auto install packer if not installed
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
+
+local packer_bootstrap = ensure_packer()  -- true if packer was just installed
 
 -- Run PackerCompile if there are changes in this file
 local packerGrp = api.nvim_create_augroup("packer_user_config", { clear = true })
@@ -37,7 +45,7 @@ return packer.startup({ function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
   use 'kyazdani42/nvim-web-devicons'
-  use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/plenary.nvim' -- lua functions tat may plugins use
   use {
     'TimUntersberger/neogit',
     cmd = { "Neogit" },
@@ -50,7 +58,7 @@ return packer.startup({ function(use)
   use {
     'Yazeed1s/minimal.nvim',
     -- config = [[vim.cmd('colorscheme minimal-base16')]],
-    config = [[vim.cmd('colorscheme minimal')]],
+    -- config = [[vim.cmd('colorscheme minimal')]],
   }
 
   -- Starter
@@ -165,7 +173,7 @@ return packer.startup({ function(use)
     'numToStr/Comment.nvim',
     keys = { "cc", "gc", "gb" },
     config = function()
-      require('Comment').setup()
+      require("venom.plugins.config.comment")
     end
   }
 
@@ -174,6 +182,16 @@ return packer.startup({ function(use)
 	  "windwp/nvim-autopairs",
     after = "nvim-cmp",
     config = function() require("venom.plugins.config.nvim_autopairs") end
+  }
+
+  -- Filetree
+  use {
+    'nvim-tree/nvim-tree.lua',
+    ft = "alpha",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+     config = function()
+      require "venom.plugins.config.nvim_tree"
+    end,
   }
 
 

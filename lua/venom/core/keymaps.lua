@@ -115,3 +115,12 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
+
+----------------------
+-- Plugin Keybinds
+----------------------
+
+-- nvim-tree
+keymap("n", "<C-n>", ":NvimTreeToggle<CR>") -- toggle file explorer
+keymap("n", "<leader>e", "<cmd> NvimTreeFocus <CR>") -- toggle file focus
+
