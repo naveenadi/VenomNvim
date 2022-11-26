@@ -4,16 +4,16 @@ local api = vim.api
 -- auto install packer if not installed
 local ensure_packer = function()
   local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
     vim.cmd [[packadd packer.nvim]]
     return true
   end
   return false
 end
 
-local packer_bootstrap = ensure_packer()  -- true if packer was just installed
+local packer_bootstrap = ensure_packer() -- true if packer was just installed
 
 -- Run PackerCompile if there are changes in this file
 local packerGrp = api.nvim_create_augroup("packer_user_config", { clear = true })
@@ -69,7 +69,7 @@ return packer.startup({ function(use)
       -- require("venom.plugins.config.alpha_nvim")
     end
   }
-  
+
   -- Tabline
   use {
     'akinsho/bufferline.nvim',
@@ -80,7 +80,7 @@ return packer.startup({ function(use)
       require("bufferline").setup {}
     end
   }
- 
+
   -- LSP Setup
   use {
     "neovim/nvim-lspconfig",
@@ -97,7 +97,7 @@ return packer.startup({ function(use)
       require("venom.plugins.config.nvim_lspconfig")
     end,
   }
-   
+
   -- Completion
   use {
     "hrsh7th/nvim-cmp",
@@ -122,10 +122,9 @@ return packer.startup({ function(use)
 
   -- Statusline
   use {
-    'feline-nvim/feline.nvim',
+    'nvim-lualine/lualine.nvim',
     config = function()
-      -- require('feline').winbar.setup()
-      require('feline').setup()
+      require('venom.plugins.config.lualine')
     end
   }
 
@@ -150,9 +149,9 @@ return packer.startup({ function(use)
   -- Indentscope
   use {
     "lukas-reineke/indent-blankline.nvim",
-     config = function()
+    config = function()
       require("venom.plugins.config.indent_blankline")
-    end 
+    end
   }
 
   -- Surround
@@ -179,7 +178,7 @@ return packer.startup({ function(use)
 
   -- Pairs
   use {
-	  "windwp/nvim-autopairs",
+    "windwp/nvim-autopairs",
     after = "nvim-cmp",
     config = function() require("venom.plugins.config.nvim_autopairs") end
   }
@@ -189,11 +188,21 @@ return packer.startup({ function(use)
     'nvim-tree/nvim-tree.lua',
     ft = "alpha",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-     config = function()
+    config = function()
       require "venom.plugins.config.nvim_tree"
     end,
   }
 
+  -- fuzzy finding w/ telescope
+  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } -- dependency for better sorting performance
+  use {
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
+    cmd = "Telescope",
+    config = function()
+      require "venom.plugins.config.telescope"
+    end
+  } -- fuzzy finder
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

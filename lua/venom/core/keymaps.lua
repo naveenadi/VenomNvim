@@ -9,7 +9,6 @@ local function termcodes(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-
 -- Space as leader key
 keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 g.mapleader = " "
@@ -78,17 +77,17 @@ keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
 keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 
 -- Word wrap
-  -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
-  -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
-  -- empty mode is same as using <cmd> :map
-  -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
+-- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
+-- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
+-- empty mode is same as using <cmd> :map
+-- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
 keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
-keymap('n', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { noremap = true, expr = true, silent = true }) 
-keymap('n', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { noremap = true, expr = true, silent = true } )
+keymap('n', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { noremap = true, expr = true, silent = true })
+keymap('n', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { noremap = true, expr = true, silent = true })
 
 -- Insert --
--- Press jk fast to exit insert mode 
+-- Press jk fast to exit insert mode
 keymap("i", "jk", "<ESC>", opts)
 
 -- Visual --
@@ -124,3 +123,18 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 keymap("n", "<C-n>", ":NvimTreeToggle<CR>") -- toggle file explorer
 keymap("n", "<leader>e", "<cmd> NvimTreeFocus <CR>") -- toggle file focus
 
+-- telescope
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working direct"find all"ory, respects .gitignore
+keymap("n", "<leader>fa", "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>") -- "find all"
+keymap("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
+keymap("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
+keymap("n", "<leader>fo", "<cmd> Telescope oldfiles <CR>") -- "find oldfiles"
+keymap("n", "<leader>tk", "<cmd> Telescope keymaps <CR>") -- "show keys"
+
+-- telescope git commands
+keymap("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git commits (use <cr> to checkout) ["gc" for git commits]
+keymap("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>") -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
+keymap("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git branches (use <cr> to checkout) ["gb" for git branch]
+keymap("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current changes per file with diff preview ["gs" for git status]
